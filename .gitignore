@@ -1,0 +1,9 @@
+node_modules/
+dist/
+signal-state/
+*.log
+.env
+.env.*
+!.env.example
+data/
+*.tgz

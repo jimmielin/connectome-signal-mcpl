@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build & Test (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    # Bounds a hung test run, which GitHub would otherwise cancel only after
+    # 360 minutes (Node's test runner can hang on a partial serializer frame,
+    # nodejs/node#62704; no 22.x release has the fix yet).
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      # The floor package.json's engines admits, pinned exactly (keep the two
+      # in step, along with the @types/node pin), the maintained line between,
+      # and the newest release.
+      matrix:
+        node: ['22.12.0', '24', 'latest']
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+
+      # npm ci installs the lock verbatim and fails on one that is out of
+      # sync with package.json. It also runs prepare, which builds.
+      - name: Install dependencies (strict lockfile)
+        run: npm ci
+
+      # npm test builds, type-checks the tests (tsc -p test), then runs them.
+      - name: Test
+        run: npm test

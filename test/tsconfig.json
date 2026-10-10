@@ -1,0 +1,9 @@
+{
+  // Type-checks the TypeScript tests, which tsx runs without checking; npm
+  // test runs it after the build.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["./**/*.ts"]
+}

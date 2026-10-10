@@ -1,0 +1,43 @@
+{
+  "name": "@jimmielin/signal-mcpl",
+  "version": "0.1.0",
+  "description": "Signal messenger MCPL server for Connectome (wraps signal-cli JSON-RPC)",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/src/index.js",
+  "bin": {
+    "signal-mcpl": "./dist/src/index.js"
+  },
+  "files": [
+    "dist/src/",
+    "src/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepare": "npm run build",
+    "test": "npm run build && tsc -p test && node --import tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@animalabs/mcpl-core": "^0.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "~22.12.0",
+    "tsx": "^4.7.0",
+    "typescript": "^7.0.2"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jimmielin/connectome-signal-mcpl.git"
+  },
+  "homepage": "https://github.com/jimmielin/connectome-signal-mcpl#readme",
+  "bugs": {
+    "url": "https://github.com/jimmielin/connectome-signal-mcpl/issues"
+  }
+}
